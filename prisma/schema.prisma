@@ -89,6 +89,7 @@ enum ChannelType{
   AUDIO
   VIDEO
 }
+
 enum MemberRole{
   ADMIN
   MODERATOR
