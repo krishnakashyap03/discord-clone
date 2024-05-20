@@ -24,6 +24,7 @@ export async function PATCH(req: Request,
         inviteCode: uuidv4()
       }
     })
+    
     return NextResponse.json(server)
   } catch (error) {
     console.log("[Server-id]", error)

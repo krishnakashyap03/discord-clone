@@ -1,10 +1,13 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser} from "@clerk/nextjs/server";
 import { db } from "./db";
-import { RedirectToSignIn } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { Divide } from "lucide-react";
+
 
 export const initialProfile = async () => {
   const user = await currentUser()
-  
+  console.log(user)
+
   if(!user){
     return auth().redirectToSignIn()
   }
