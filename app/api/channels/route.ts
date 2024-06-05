@@ -1,7 +1,7 @@
 import { currentProfile } from "@/lib/curren-profile";
 import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request){
 
@@ -15,7 +15,7 @@ export async function POST(req: Request){
       return new NextResponse("Unauthorized", {status: 401})
     }
     if(!serverId){
-      return new NextResponse("serverId not Found", {status: 402})
+      return new NextResponse("serverId not Found", {status: 400})
     }
     if(name === "general"){
       return new NextResponse("Name cannot be General", {status: 400})
