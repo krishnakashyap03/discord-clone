@@ -5,12 +5,14 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Discord",
   description: "Discord Clone",
+  icons: "https://static-00.iconduck.com/assets.00/discord-icon-2048x2048-o5mluhz2.png"
 };
 
 export default function RootLayout({
@@ -30,8 +32,10 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-theme"
           >
-            <ModalProvider />
-            {children}
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
           </body>
         </html>
