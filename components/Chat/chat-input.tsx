@@ -2,7 +2,7 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import qs from 'query-string'
 import {Form,
   FormControl,
   FormField,
@@ -10,6 +10,10 @@ import {Form,
 } from '@/components/ui/form'
 import { Input } from "@/components/ui/input"
 import { Plus, Smile } from "lucide-react";
+import axios from "axios";
+import { useModal } from "@/hooks/use-model-store";
+import { EmojiPickker } from "../emoji-picker";
+import { useRouter } from "next/navigation";
 
 interface ChatInputProps {
   apiUrl: string,
@@ -23,6 +27,8 @@ const formSchema = z.object({
 type formSchemaType = z.infer<typeof formSchema>
 
 export const ChatInput = ({apiUrl, query, name, type}: ChatInputProps) => {
+  const {onOpen} = useModal()
+  const router = useRouter()
   const form = useForm<formSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues:{
@@ -31,7 +37,18 @@ export const ChatInput = ({apiUrl, query, name, type}: ChatInputProps) => {
   })
   const isLoading = form.formState.isSubmitting
   const onSubmit = async (values: formSchemaType) => {
-    console.log(values)
+    try {
+      const url = qs.stringifyUrl({
+        url: apiUrl,
+        query,
+      })
+      await axios.post(url, values);
+
+      form.reset()
+      router.refresh();
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <Form {...form}>
@@ -43,7 +60,7 @@ export const ChatInput = ({apiUrl, query, name, type}: ChatInputProps) => {
               <FormControl>
                 <div className="relative p-4 pb-6">
                   <button type="button"
-                    onClick={() => {}}
+                    onClick={() => onOpen("SendFile")}
                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 hover:dark:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center">
                     <Plus className="text-white dark:text-white-[#313338]"/>
                   </button>
@@ -53,7 +70,7 @@ export const ChatInput = ({apiUrl, query, name, type}: ChatInputProps) => {
                     {...field}
                   />
                   <div className="absolute top-7 right-8">
-                    <Smile />
+                    <EmojiPickker onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)} />
                   </div>
                 </div>
               </FormControl>

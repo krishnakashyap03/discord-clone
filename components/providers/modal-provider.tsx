@@ -10,6 +10,7 @@ import LeaverServer from "@/components/Modals/Leave-server_modal"
 import DeleteServer from "@/components/Modals/Delete-server-modal"
 import DeleteChannel from "@/components/Modals/Delete-channel-model"
 import EditChannelModal from "../Modals/edit-channel-modal"
+import MessageSendFileModal from "../Modals/message-send-file-modal"
 
 export const ModalProvider = ( ) => {
   const [isMounted, SetIsMounted] = useState(false)
@@ -33,6 +34,7 @@ export const ModalProvider = ( ) => {
       <DeleteServer />
       <DeleteChannel />
       <EditChannelModal />
+      <MessageSendFileModal />
     </>
   )
 }
