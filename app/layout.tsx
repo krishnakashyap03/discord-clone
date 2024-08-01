@@ -11,8 +11,8 @@ import QueryProvider from "@/components/providers/query-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Discord",
-  description: "Discord Clone",
+  title: "ConnecttoWorld",
+  description: "Discord clone",
   icons: "https://static-00.iconduck.com/assets.00/discord-icon-2048x2048-o5mluhz2.png"
 };
 

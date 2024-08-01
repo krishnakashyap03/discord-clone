@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation"
 import { useModal } from "@/hooks/use-model-store"
 
 const formSchema = z.object({
-  FileUrl: z.string()
+  fileUrl: z.string()
 })
 
 
@@ -42,7 +42,7 @@ const MessageSendFileModal = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      FileUrl: ""
+      fileUrl: ""
     }
   })
 
@@ -56,7 +56,7 @@ const MessageSendFileModal = () => {
       })
       await axios.post(url, {
         ...values,
-        content: values.FileUrl
+        content: values.fileUrl
       })
 
       form.reset();
@@ -91,7 +91,7 @@ const MessageSendFileModal = () => {
               <div className="flex items-center justify-center text-center">
                 <FormField 
                 control={form.control}
-                name="FileUrl"
+                name="fileUrl"
                 render={({field}) => (
                   <FormItem>
                     <FormControl>

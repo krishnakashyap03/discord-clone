@@ -1,18 +1,25 @@
 import { ChatHeader } from "@/components/Chat/chat-header"
+import { ChatInput } from "@/components/Chat/chat-input"
+import { ChatMessages } from "@/components/Chat/chat-messages"
+import { MediaRoom } from "@/components/media-client"
 import { getORcreateConversation } from "@/lib/conversations"
 import { currentProfile } from "@/lib/curren-profile"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
+import { ChannelType } from "@prisma/client"
 import { redirect } from "next/navigation"
 
 interface MemberConversationPageProps {
   params: {
     memberId: string,
     serverId: string
+  },
+  searchParams: {
+    video?: boolean
   }
 }
 
-const MemberConversationPage = async ({params}: MemberConversationPageProps) => {
+const MemberConversationPage = async ({params, searchParams}: MemberConversationPageProps) => {
   const profile = await currentProfile()
   if(!profile){
     return auth().redirectToSignIn()
@@ -46,7 +53,38 @@ const MemberConversationPage = async ({params}: MemberConversationPageProps) => 
         imageUrl={otherMember.profile.imageURL}
         name={otherMember.profile.name}
       />
-      
+      {!searchParams.video && (
+        <>
+          <ChatMessages type="conversation"
+            member={currentMember}
+            name={otherMember.profile.name}
+            chatId={conversation.id}
+            apiUrl="/api/direct-messages"
+            socketQuery={
+            { conversationId: conversation.id }
+            }
+            socketUrl="/api/socket/direct-messages"
+            paramKey="conversationId"
+            paramValue={conversation.id}
+          />
+          <ChatInput 
+            type="conversation"
+            name={otherMember.profile.name}
+            apiUrl="/api/socket/direct-messages"
+            query={
+              {conversationId: conversation.id
+              }
+            }
+          />
+        </>
+      )}
+        {searchParams.video && (
+          <MediaRoom
+          chatId={conversation.id}
+          video={true}
+          audio={true}
+          />
+        )}
     </div>
   )
 }

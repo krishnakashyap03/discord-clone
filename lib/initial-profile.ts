@@ -6,7 +6,6 @@ import { Divide } from "lucide-react";
 
 export const initialProfile = async () => {
   const user = await currentUser()
-  console.log(user)
 
   if(!user){
     return auth().redirectToSignIn()
