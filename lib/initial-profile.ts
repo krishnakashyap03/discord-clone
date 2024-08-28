@@ -1,7 +1,5 @@
 import { auth, currentUser} from "@clerk/nextjs/server";
 import { db } from "./db";
-import { redirect } from "next/navigation";
-import { Divide } from "lucide-react";
 
 
 export const initialProfile = async () => {
